@@ -1,0 +1,6 @@
+/* Fondo compartido por todas las vistas (index, recoger, admin).
+   Aquí cambias el aspecto:
+   --difuminado: 0px = nítido · 8px = suave · 20px = muy borroso
+   --velo: 0 = imagen a todo color · 1 = todo blanco (no bajar de .50: los títulos oscuros se pierden) */
+:root{--difuminado:8px;--velo:.60}
+body::before{content:"";position:fixed;inset:-60px;z-index:-1;background:linear-gradient(rgb(242 244 246 / var(--velo)),rgb(242 244 246 / var(--velo))),url(/fondo.jpg) center/cover no-repeat;filter:blur(var(--difuminado))}
