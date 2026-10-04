@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Recoger tu pedido</title>
+<style>
+:root{--ink:#101820;--mut:#5b6670;--line:#d9dee3;--paper:#f2f4f6;--c:#00a3d9;--m:#e6007e;--y:#ffd200}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--paper)}
+main{max-width:540px;margin:0 auto;padding:28px 16px 56px}
+h1{font-size:2rem;line-height:1.1;letter-spacing:-.02em;font-weight:800;margin:6px 0 8px}
+.sub{color:var(--mut);margin:0 0 20px}
+.caja{position:relative;background:#fff;border:1px solid var(--line);border-radius:6px;padding:26px 18px 20px;margin-bottom:16px}
+.caja::before{content:"";position:absolute;left:0;top:0;right:0;height:6px;background:linear-gradient(90deg,var(--c) 25%,var(--m) 25% 50%,var(--y) 50% 75%,var(--ink) 75%)}
+label{display:block;font-weight:700;margin:0 0 6px}
+input{width:100%;font:inherit;font-size:1.4rem;letter-spacing:.14em;text-transform:uppercase;padding:11px 12px;border:1px solid #b8c0c7;border-radius:4px}
+input:focus-visible,.btn:focus-visible,li button:focus-visible{outline:3px solid var(--c);outline-offset:2px}
+#msg{color:#b00020;min-height:1.5em;margin:12px 0 0}
+.btn{width:100%;margin-top:6px;padding:14px;border:0;border-radius:4px;background:var(--ink);color:#fff;font:inherit;font-weight:800;font-size:1.05rem;cursor:pointer}
+.btn:disabled{opacity:.6;cursor:wait}
+.caja h2{margin:0 0 8px}
+ul{list-style:none;margin:0;padding:0}
+li{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+li span{flex:1;min-width:0;overflow-wrap:anywhere}
+li em{font-style:normal;color:var(--mut);font-size:.85rem;white-space:nowrap}
+li button{font:inherit;padding:8px 12px;border:1px solid #b8c0c7;border-radius:4px;background:#fff;color:var(--ink);cursor:pointer}
+[hidden]{display:none!important}
+</style></head><body><main>
+<h1>Recoge tu pedido</h1>
+<p class="sub">Escribe el código que te dimos al enviar tus archivos.</p>
+<form id="f" class="caja" novalidate>
+<label for="c">Tu código</label>
+<input id="c" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="EE5A36">
+<p id="msg" role="alert"></p>
+<button class="btn" id="go">Buscar</button>
+</form>
+<div class="caja" id="res" hidden><h2>Tus archivos</h2><ul id="ls"></ul></div>
+<p><a href="/">← Volver a enviar archivos</a></p>
+</main><script src="recoger.js"></script></body></html>

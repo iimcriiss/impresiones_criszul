@@ -35,3 +35,21 @@ export async function onRequestPost({ request, env }) {
   await env.FILES.delete(keys);
   return json({ ok: true });
 }
+
+export async function onRequestPut({ request, env }) {
+  const o = request.headers.get('Origin'); if (o && o !== new URL(request.url).origin) return json({ error: 'Origen no permitido' }, 403);
+  if (!(await autorizado(request, env))) return json({ error: 'No autorizado' }, 401);
+  const codigo = (request.headers.get('x-codigo') || '').toLowerCase();
+  if (!/^[a-f0-9]{6}$/.test(codigo)) return json({ error: 'Código inválido' }, 400);
+  let nombre; try { nombre = decodeURIComponent(request.headers.get('x-nombre') || ''); } catch { nombre = ''; }
+  nombre = nombre.slice(0, 120).replace(/[\\\/\x00-\x1f]/g, '_');
+  if (!nombre) return json({ error: 'Falta el nombre del archivo' }, 400);
+  const len = parseInt(request.headers.get('content-length') || '0', 10);
+  if (!len) return json({ error: 'El archivo está vacío' }, 400);
+  if (len > 50 * 1024 * 1024) return json({ error: 'El archivo pesa más de 50 MB' }, 413);
+  await env.FILES.put('r/' + codigo + '/' + Date.now().toString(36) + '-' + nombre, request.body, {
+    httpMetadata: { contentType: 'application/octet-stream' },
+    customMetadata: { n: nombre }
+  });
+  return json({ ok: true });
+}
