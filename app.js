@@ -53,7 +53,7 @@ $('#f').onsubmit = async e => {
     for (const f of files) {
       if (f.ok) continue; f.err = false; f.st = 'Subiendo…'; render();
       try {
-        const u = await fetch('/api/subir', { method: 'PUT', body: f.file, headers: { 'content-type': 'application/octet-stream', 'x-ticket': sesion.ticket, 'x-nombre': encodeURIComponent(f.file.name), 'x-cliente': encodeURIComponent(val('#n')), 'x-tel': encodeURIComponent(val('#t')), 'x-nota': encodeURIComponent(val('#o')) } });
+        const u = await fetch('/api/subir', { method: 'PUT', body: f.file, headers: { 'content-type': 'application/octet-stream', 'x-ticket': sesion.ticket, 'x-nombre': encodeURIComponent(f.file.name), 'x-cliente': encodeURIComponent(val('#n')), 'x-nota': encodeURIComponent(val('#o')) } });
         if (!u.ok) throw new Error((await u.json().catch(() => ({}))).error || 'No se pudo subir.');
         f.ok = true; f.st = 'Listo';
       } catch (er) { fallos++; f.err = true; f.st = er.message; }
