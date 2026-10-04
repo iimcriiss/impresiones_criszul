@@ -11,7 +11,7 @@ Proyecto independiente (no comparte nada con Cattleya). Los clientes suben archi
 6. Edita en `app.js` la línea `CFG`: pon el nombre del negocio.
 
 ## Recomendado
-- **Borrado automático**: en el bucket → Settings → Object lifecycle rules → eliminar objetos a los 7 días.
+- **Borrado automático**: en el bucket → Settings → Object lifecycle rules → eliminar objetos a los 2 Días.
 - **Anti-bots (opcional)**: crea un widget de Turnstile; pon la clave pública en `CFG.turnstile` (app.js) y la clave secreta como secreto `TURNSTILE_SECRET`.
 - **Límite de peticiones**: en Security → WAF → Rate limiting rules, limita `/api/*`.
 
