@@ -6,6 +6,7 @@ document.title = 'Enviar archivos · ' + CFG.negocio; $('#neg').textContent = CF
 
 if (CFG.turnstile) {
   const d = document.createElement('div'); d.className = 'cf-turnstile'; d.dataset.sitekey = CFG.turnstile; d.dataset.callback = 'tsOk'; $('#ts').append(d);
+  d.dataset.appearance = 'interaction-only'; 
   window.tsOk = t => { token = t; };
   const s = document.createElement('script'); s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js'; s.async = true; document.head.append(s);
 }

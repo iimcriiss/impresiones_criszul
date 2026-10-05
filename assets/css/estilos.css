@@ -27,7 +27,8 @@ ul{list-style:none;margin:10px 0 0;padding:0}
 .arch.err em{color:var(--bad)}.arch.done em{color:var(--ok)}.arch.done .ext{background:rgb(24 121 78/.15);color:var(--ok)}
 .arch button{grid-row:span 2;border:0;background:none;color:var(--bad);font-size:1.4rem;cursor:pointer;padding:4px 8px;border-radius:8px}
 .barra{grid-column:2/4;height:4px;background:var(--line);border-radius:4px;overflow:hidden}.barra i{display:block;height:100%;width:0;background:var(--c);transition:width .15s}
-#msg,#err{color:var(--bad);min-height:1.5em;margin:12px 0 0;font-weight:600}
+#msg,#err{color:var(--bad);margin:12px 0 0;font-weight:600}
+#msg:empty,#err:empty{margin:0}
 .btn{display:block;width:100%;margin-top:8px;padding:14px;border:0;border-radius:12px;background:var(--ink);color:var(--paper);font:inherit;font-weight:800;font-size:1.05rem;cursor:pointer;text-align:center;text-decoration:none;transition:transform .1s,opacity .15s}
 .btn:hover{opacity:.9}.btn:active{transform:scale(.99)}.btn:disabled{opacity:.6;cursor:wait}
 .btn.sec,.mini{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
@@ -42,3 +43,4 @@ h1.fila{display:flex;justify-content:space-between;align-items:center;gap:8px;fl
 .acc{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.del{margin-left:auto}.vacio{text-align:center;color:var(--mut);padding:40px 0}
 [hidden]{display:none!important}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+   a.mini{text-decoration:none}
