@@ -3,14 +3,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#d6283d">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/iconos/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/iconos/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/iconos/icon-192x192.png">
 <link rel="apple-touch-icon" href="/assets/img/iconos/apple-icon-180x180.png">
 <link rel="stylesheet" href="/assets/css/estilos.css">
 <meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">
-<title>Archivos recibidos</title>
-</head><body><main class="ancho">
-<form id="login" class="card"><h1>Archivos recibidos</h1><label for="clave">Clave</label><input id="clave" type="password" autocomplete="current-password" required><p id="err" role="alert"></p><button class="btn">Entrar</button></form>
-<section id="panel" hidden><h1 class="fila">Archivos recibidos <span><button class="mini" id="act">Actualizar</button><button class="mini" id="sal">Salir</button></span></h1><div id="lista"></div></section>
-</main><script src="/assets/js/comun.js"></script><script src="/assets/js/panel.js"></script></body></html>
+<title>Panel · Archivos recibidos</title>
+</head><body data-pag="admin">
+<main class="centro" id="loginbox"><form id="login" class="card hero rv"><img class="logo" src="/assets/img/iconos/icon-192x192.png" alt="" width="76" height="76"><h1>Panel del negocio</h1><p class="sub">Escribe tu clave para ver los archivos recibidos.</p>
+<input id="clave" type="password" autocomplete="current-password" placeholder="Clave" required><p id="err" role="alert"></p><button class="btn">Entrar</button></form></main>
+<main class="ancho" id="panel" hidden>
+<div class="cab rv"><h1>Archivos recibidos</h1><div class="acc"><button class="mini" id="act"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/><div class="acc"><button class="mini" id="vista"></button><button class="mini" id="act">/svg>Actualizar</button><button class="mini" id="sal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4m7 14 5-5-5-5m5 5H9"/></svg>Salir</button></div></div>
+<div class="stats" id="stats"></div>
+<input id="buscar" type="search" placeholder="Buscar por código, nombre o archivo…" aria-label="Buscar">
+<div class="grid" id="lista"></div>
+</main><script src="/assets/js/comun.js"></script><script src="/assets/js/panel.js"></script><script src="/assets/js/ui.js"></script></body></html>

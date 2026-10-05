@@ -3,22 +3,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#d6283d">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/iconos/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/iconos/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/iconos/icon-192x192.png">
 <link rel="apple-touch-icon" href="/assets/img/iconos/apple-icon-180x180.png">
 <link rel="stylesheet" href="/assets/css/estilos.css">
 <meta name="robots" content="noindex">
-<title>Recoger tu pedido</title>
-</head><body><main>
-<h1>Recoge tu pedido</h1>
-<p class="sub">Escribe el código que te dimos al enviar tus archivos.</p>
-<form id="f" class="card" novalidate>
-<label for="c">Tu código</label>
+<title>Descargar mis archivos</title>
+</head><body data-pag="recoger"><main>
+<div class="hero rv"><img class="logo" src="/assets/img/iconos/icon-192x192.png" alt="" width="76" height="76"><h1>Descarga tus archivos</h1>
+<p class="sub">Escribe el código que te dimos al enviar tus archivos.</p></div>
+<form id="f" class="card rv" novalidate>
+<label class="l" for="c">Tu código</label>
 <input id="c" maxlength="9" autocomplete="off" autocapitalize="characters" placeholder="K7M2-9QXA">
 <p id="msg" role="alert"></p>
 <button class="btn" id="go">Buscar</button>
 </form>
-<div class="card" id="res" hidden><h2>Tus archivos</h2><ul id="ls"></ul></div>
-<p class="rec"><a href="/">← Volver a enviar archivos</a></p>
-</main><script src="/assets/js/comun.js"></script><script src="/assets/js/recoger.js"></script></body></html>
+<div class="card rv" id="res" hidden><h2>Tus archivos</h2><ul id="ls"></ul></div>
+<div class="enlace rv"><a href="/">← Volver a enviar archivos</a></div>
+</main><script src="/assets/js/comun.js"></script><script src="/assets/js/recoger.js"></script><script src="/assets/js/ui.js"></script></body></html>

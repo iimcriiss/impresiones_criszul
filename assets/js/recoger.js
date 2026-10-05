@@ -9,15 +9,14 @@ $('#f').onsubmit = async e => {
     const r = await fetch('/api/recoger?c=' + encodeURIComponent(c));
     if (!r.ok) throw new Error(await err(r, 'No se pudo consultar. Inténtalo de nuevo.'));
     const lista = await r.json();
-    if (!lista.length) return msg('Todavía no hay nada para este código. Si ya te avisaron, revisa que esté bien escrito.');
+    if (!lista.length) { msg('Todavía no hay nada para este código. Si ya te avisaron, revisa que esté bien escrito.'); if (window.ayudaPulso) ayudaPulso(); return; }
     const ul = $('#ls'); ul.innerHTML = '';
-    for (const x of lista) {
-      const li = document.createElement('li'), a = document.createElement('a'), em = document.createElement('em'), n = document.createElement('div');
-      li.className = 'arch'; n.className = 'nom'; n.textContent = x.n; em.textContent = fmt(x.s);
-      a.className = 'mini'; a.textContent = 'Descargar'; a.href = '/api/recoger?d=' + encodeURIComponent(x.k);
-      const e2 = document.createElement('div'); e2.className = 'ext'; e2.textContent = ext(x.n);
-      li.append(e2, n, a, em); ul.append(li);
-    }
+    lista.forEach((x, i) => {
+      const li = document.createElement('li'), t = document.createElement('div'), n = document.createElement('span'), em = document.createElement('em'), a = document.createElement('a'), e2 = document.createElement('div');
+      li.className = 'tile'; li.style.setProperty('animation-delay', i * 60 + 'ms'); t.className = 'tx'; n.className = 'nom'; n.textContent = x.n; em.textContent = fmt(x.s);
+      e2.className = 'ext'; e2.textContent = ext(x.n); a.className = 'mini'; a.textContent = 'Descargar'; a.href = '/api/recoger?d=' + encodeURIComponent(x.k);
+      t.append(n, em); li.append(e2, t, a); ul.append(li);
+    });
     $('#res').hidden = false;
   } catch (er) { msg(er.message); }
   finally { $('#go').disabled = false; $('#go').textContent = 'Buscar'; }
