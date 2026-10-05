@@ -59,3 +59,15 @@ function aplicarVista() { $('#lista').classList.toggle('lista', vista === 'lista
 $('#vista').onclick = () => { vista = vista === 'lista' ? 'grid' : 'lista'; try { localStorage.setItem('vista', vista); } catch {} aplicarVista(); };
 aplicarVista();
 cargar().catch(() => {}); // si ya hay sesión abierta, entra directo
+// Actualización automática cada 30 s (solo si la pestaña está a la vista y el panel abierto)
+const firmaDatos = d => d.map(x => x.k + ':' + x.s).join('|');
+setInterval(async () => {
+  if (document.hidden || $('#panel').hidden) return;
+  try {
+    const d = await api('GET');
+    if (firmaDatos(d) === firmaDatos(datos)) return;
+    const antes = new Set(datos.map(x => x.k.split('/')[1]));
+    datos = d; pintar();
+    if (d.some(x => !antes.has(x.k.split('/')[1]))) toast('Llegó un pedido nuevo 🍓');
+  } catch (er) { if (er.auth) location.reload(); }
+}, 60000);
