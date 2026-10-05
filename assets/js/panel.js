@@ -9,8 +9,8 @@ const bajar = k => { const a = document.createElement('a'); a.href = '/api/admin
 const IC = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 20h14"/></svg>';
 function tarjeta(p) {
   return '<article class="card ped rv"><header><span class="chip">' + esc(cod(p.id)) + '</span><time>' + new Date(p.f).toLocaleString('es-CO', { dateStyle: 'medium', timeStyle: 'short' }) + '</time></header>'
-    + '<p><strong>' + (esc(p.m.c) || 'Sin nombre') + '</strong></p>' + (p.m.o ? '<p class="nota">' + esc(p.m.o) + '</p>' : '')
-    + '<ul class="tiles">' + p.a.map(x => '<li class="tile"><div class="ext">' + esc(ext(x.m.n || '')) + '</div><div class="tx"><span class="nom">' + esc(x.m.n || x.k) + '</span><em>' + fmt(x.s) + '</em></div><button class="mini" data-d="' + esc(x.k) + '" aria-label="Descargar ' + esc(x.m.n || '') + '">' + IC + '</button></li>').join('') + '</ul>'
+    + '<p><strong>' + (esc(p.m.c) || 'Sin nombre') + '</strong></p>' + (p.m.o ? '<p class="etq">Lo que pide el cliente</p><p class="nota">' + esc(p.m.o) + '</p>' : '')
+    + '<p class="etq">Archivos que envió (' + p.a.length + ')</p><ul class="tiles">' + p.a.map(x => '<li class="tile"><div class="ext">' + esc(ext(x.m.n || '')) + '</div><div class="tx"><span class="nom">' + esc(x.m.n || x.k) + '</span><em>' + fmt(x.s) + '</em></div><button class="mini" data-d="' + esc(x.k) + '" aria-label="Descargar ' + esc(x.m.n || '') + '">' + IC + '</button></li>').join('') + '</ul>'
     + '<div class="acc"><button class="mini" data-r="' + esc(p.id) + '">Subir respuesta</button><button class="mini" data-t="' + esc(p.id) + '">Descargar todo</button><button class="mini del" data-b="' + esc(p.id) + '">Borrar</button></div></article>';
 }
 function pintar() {
