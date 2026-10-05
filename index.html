@@ -2,59 +2,27 @@
 <html lang="es"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/iconos/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/iconos/favicon-16x16.png">
+<link rel="apple-touch-icon" href="/assets/img/iconos/apple-icon-180x180.png">
+<link rel="stylesheet" href="/assets/css/estilos.css">
 <meta name="robots" content="noindex">
 <title>Enviar archivos para imprimir</title>
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="/iconos/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/iconos/favicon-16x16.png">
-<link rel="apple-touch-icon" href="/iconos/apple-icon-180x180.png">
-<link rel="stylesheet" href="/fondo.css">
-<style>
-:root{--ink:#101820;--mut:#5b6670;--line:#d9dee3;--paper:#f2f4f6;--c:#00a3d9;--m:#e6007e;--y:#ffd200}
-*{box-sizing:border-box}
-body{margin:0;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--paper)}
-main{max-width:540px;margin:0 auto;padding:28px 16px 56px}
-.neg{margin:0;font-weight:700;color:var(--mut)}
-h1{font-size:2rem;line-height:1.1;letter-spacing:-.02em;font-weight:800;margin:6px 0 8px}
-.sub{color:var(--mut);margin:0 0 20px}
-form,.exito{position:relative;background:#fff;border:1px solid var(--line);border-radius:6px;padding:26px 18px 20px}
-form::before,.exito::before{content:"";position:absolute;left:0;top:0;right:0;height:6px;background:linear-gradient(90deg,var(--c) 25%,var(--m) 25% 50%,var(--y) 50% 75%,var(--ink) 75%)}
-label{display:block;font-weight:700;margin:16px 0 6px}
-label small{font-weight:400;color:var(--mut)}
-input,textarea{width:100%;font:inherit;padding:11px 12px;border:1px solid #b8c0c7;border-radius:4px;background:#fff;color:var(--ink)}
-input:focus-visible,textarea:focus-visible,.btn:focus-visible,#drop:focus-within{outline:3px solid var(--c);outline-offset:2px}
-#drop{display:block;border:2px dashed #8d98a1;border-radius:4px;padding:24px 12px;text-align:center;color:var(--mut);cursor:pointer;margin:0;font-weight:400}
-#drop.on{border-color:var(--m);background:#fff0f8}
-#drop b{display:block;color:var(--ink);font-size:1.1rem}
-#file{position:absolute;opacity:0;width:1px;height:1px}
-ul{list-style:none;margin:10px 0 0;padding:0}
-li{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:.95rem}
-li span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-li em{font-style:normal;color:var(--mut);font-size:.85rem}
-li.err em{color:#b00020}li.done em{color:#18794e}
-li button{border:0;background:none;color:#b00020;font-size:1.3rem;cursor:pointer;padding:0 4px}
-#msg{color:#b00020;min-height:1.5em;margin:12px 0 0}
-.btn{width:100%;margin-top:6px;padding:14px;border:0;border-radius:4px;background:var(--ink);color:#fff;font:inherit;font-weight:800;font-size:1.05rem;cursor:pointer}
-.btn:disabled{opacity:.6;cursor:wait}
-.cod{font-size:2.6rem;font-weight:800;letter-spacing:.14em;margin:0 0 12px}
-.exito h2{margin:0 0 8px}.exito p{margin:6px 0}
-.rec{text-align:center;margin:16px 0 0}.rec a{color:var(--ink);font-weight:700}
-a.btn{display:block;text-align:center;text-decoration:none}
-[hidden]{display:none!important}
-</style></head><body><main>
+</head><body><main>
 <p class="neg" id="neg"></p>
 <h1>Envía tus archivos para imprimir</h1>
 <p class="sub">Solo los ve quien atiende el negocio.</p>
-<form id="f" novalidate>
+<form id="f" class="card" novalidate>
 <label for="n">Tu nombre</label><input id="n" maxlength="60" autocomplete="name">
 <label for="o">¿Qué necesitas? <small>(copias, tamaño, color o blanco y negro)</small></label><textarea id="o" rows="3" maxlength="300"></textarea>
-<label>Archivos <small>(fotos, PDF, Word o Excel · hasta 50 MB y 10 archivos)</small></label>
-<label id="drop" for="file"><b>Toca para elegir archivos</b>o arrástralos aquí</label>
+<label for="file">Archivos <small>(fotos, PDF, Word o Excel · hasta 50 MB y 10 archivos)</small></label>
+<label id="drop" for="file"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7 9m5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><b>Toca para elegir archivos</b>o arrástralos aquí</label>
 <input id="file" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,image/*">
 <ul id="ls"></ul><div id="ts"></div><p id="msg" role="alert"></p>
 <button class="btn" id="go">Enviar</button>
 </form>
-<p class="rec"><a href="recoger.html">¿Ya te avisaron? Recoger tu pedido</a></p>
-<div class="exito" id="exito" hidden><h2>Recibimos tus archivos</h2><p>Tu código es</p><p class="cod" id="cod"></p><p>Si vas a preguntar por tu pedido, di este código.</p></div>
-<p><a class="btn" href="recoger.html">Recoger mi pedido</a></p>
-</main><script src="app.js"></script></body></html>
+<div class="card exito" id="exito" hidden><h2>¡Recibimos tus archivos!</h2><p>Tu código es</p><p class="cod" id="cod"></p><p>Si vas a preguntar por tu pedido, di este código.</p><button class="mini" id="copiar" type="button">Copiar código</button></div>
+<p class="rec"><a href="recoger.html">¿Ya te avisaron? Recoger mi pedido →</a></p>
+</main><script src="/assets/js/comun.js"></script><script src="/assets/js/enviar.js"></script></body></html>

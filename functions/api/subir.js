@@ -1,46 +1,38 @@
-// Subida pública: 1) POST pide un permiso (ticket) · 2) PUT sube un archivo a R2 (binding FILES)
-const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
-const enc = new TextEncoder();
-const hex = b => [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('');
-async function firma(texto, clave) {
-  const k = await crypto.subtle.importKey('raw', enc.encode(clave), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
-  return hex(await crypto.subtle.sign('HMAC', k, enc.encode(texto)));
-}
-const EXT = /\.(pdf|jpe?g|png|webp|heic|heif|docx?|xlsx?|pptx?|txt)$/i;
-const MAX = 50 * 1024 * 1024, MAX_ARCH = 10;
-const corto = (s, n) => String(s || '').slice(0, n);
-const dec = v => { try { return decodeURIComponent(v || ''); } catch { return ''; } };
-const otroOrigen = r => { const o = r.headers.get('Origin'); return o && o !== new URL(r.url).origin; };
+// Subida pública: POST = pide un permiso (ticket) · PUT = sube un archivo a R2 (binding FILES)
+import { json, firma, iguales, nuevoCodigo, CODIGO, EXT, MAX, MAX_ARCH, corto, dec, limpiarNombre, formatoValido } from '../_lib/util.js';
 
 export async function onRequestPost({ request, env }) {
-  if (otroOrigen(request)) return json({ error: 'Origen no permitido' }, 403);
-  if (!env.ADMIN_KEY) return json({ error: 'El servicio no está configurado' }, 500);
+  if (!env.TICKET_SECRET) return json({ error: 'El servicio no está configurado' }, 500);
   if (env.TURNSTILE_SECRET) {
     let b = {}; try { b = await request.json(); } catch {}
-    const f = new FormData(); f.append('secret', env.TURNSTILE_SECRET); f.append('response', b.token || ''); f.append('remoteip', request.headers.get('CF-Connecting-IP') || '');
-    const v = await (await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body: f })).json();
-    if (!v.success) return json({ error: 'No pudimos verificar que eres una persona. Recarga la página.' }, 403);
+    try {
+      const f = new FormData(); f.append('secret', env.TURNSTILE_SECRET); f.append('response', b.token || ''); f.append('remoteip', request.headers.get('CF-Connecting-IP') || '');
+      const v = await (await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body: f })).json();
+      if (!v.success) return json({ error: 'No pudimos verificar que eres una persona. Inténtalo de nuevo.' }, 403);
+    } catch { return json({ error: 'No pudimos verificar. Inténtalo de nuevo.' }, 502); }
   }
-  const pedido = hex(crypto.getRandomValues(new Uint8Array(6))), exp = Date.now() + 30 * 60 * 1000;
-  return json({ pedido, ticket: pedido + '.' + exp + '.' + await firma(pedido + '.' + exp, env.ADMIN_KEY) });
+  const pedido = nuevoCodigo(), exp = Date.now() + 30 * 60 * 1000;
+  return json({ pedido, ticket: pedido + '.' + exp + '.' + await firma(pedido + '.' + exp, env.TICKET_SECRET) });
 }
 
 export async function onRequestPut({ request, env }) {
-  if (otroOrigen(request)) return json({ error: 'Origen no permitido' }, 403);
+  if (!env.TICKET_SECRET) return json({ error: 'El servicio no está configurado' }, 500);
   const [pedido, exp, sig] = (request.headers.get('x-ticket') || '').split('.');
-  if (!env.ADMIN_KEY || !/^[a-f0-9]{12}$/.test(pedido || '') || !(Date.now() < +exp) || sig !== await firma(pedido + '.' + exp, env.ADMIN_KEY))
+  if (!CODIGO.test(pedido || '') || !(Date.now() < +exp) || !(await iguales(sig || '', await firma(pedido + '.' + exp, env.TICKET_SECRET))))
     return json({ error: 'El envío expiró. Recarga la página e inténtalo de nuevo.' }, 403);
-  const nombre = corto(dec(request.headers.get('x-nombre')), 120).replace(/[\\\/\x00-\x1f]/g, '_');
+  const i = Number(request.headers.get('x-indice'));
+  if (!Number.isInteger(i) || i < 0 || i >= MAX_ARCH) return json({ error: 'Máximo 10 archivos por envío.' }, 400);
+  const nombre = limpiarNombre(request.headers.get('x-nombre'));
   if (!EXT.test(nombre)) return json({ error: 'Ese tipo de archivo no se acepta.' }, 400);
   const len = parseInt(request.headers.get('content-length') || '0', 10);
   if (!len) return json({ error: 'El archivo está vacío.' }, 400);
   if (len > MAX) return json({ error: 'El archivo pesa más de 50 MB.' }, 413);
-  const previos = await env.FILES.list({ prefix: 'p/' + pedido + '/', limit: MAX_ARCH + 1 });
-  if (previos.objects.length >= MAX_ARCH) return json({ error: 'Máximo 10 archivos por envío.' }, 429);
-  const h = n => dec(request.headers.get(n));
-  await env.FILES.put('p/' + pedido + '/' + Date.now().toString(36) + '-' + nombre, request.body, {
-    httpMetadata: { contentType: 'application/octet-stream' },
-    customMetadata: { n: nombre, c: corto(h('x-cliente'), 60), t: corto(h('x-tel'), 30), o: corto(h('x-nota'), 300) }
-  });
+  // La llave depende solo del número (0-9): es imposible pasar de 10 archivos, ni en paralelo
+  const key = 'p/' + pedido + '/' + i;
+  try {
+    const o = await env.FILES.put(key, request.body, { httpMetadata: { contentType: 'application/octet-stream' },
+      customMetadata: { n: nombre, c: corto(dec(request.headers.get('x-cliente')), 60), o: corto(dec(request.headers.get('x-nota')), 300) } });
+    if (o.size > MAX || !(await formatoValido(env, key, nombre))) { await env.FILES.delete(key); return json({ error: 'El contenido no coincide con el tipo de archivo.' }, 400); }
+  } catch { return json({ error: 'No se pudo guardar el archivo.' }, 500); }
   return json({ ok: true });
 }
