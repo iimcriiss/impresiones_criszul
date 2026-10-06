@@ -11,10 +11,13 @@ export async function onRequestPost({ request, env }) {
       if (!v.success) return json({ error: 'No pudimos verificar que eres una persona. Inténtalo de nuevo.' }, 403);
     } catch { return json({ error: 'No pudimos verificar. Inténtalo de nuevo.' }, 502); }
   }
-  // Código de la tienda (opcional): si existe el secreto CODIGO_TIENDA, hay que escribirlo para poder enviar
-  if (env.CODIGO_TIENDA) {
+  // Código de la tienda (lo dices en el local) o clave del QR (va en el enlace): con cualquiera de los dos se puede enviar
+  if (env.CODIGO_TIENDA || env.CODIGO_QR) {
     const limpio = x => String(x || '').trim().toUpperCase().replace(/\s+/g, '');
-    if (!(await iguales('t:' + limpio(b.codigo), 't:' + limpio(env.CODIGO_TIENDA)))) return json({ error: 'El código de la tienda no es correcto.' }, 403);
+    const dado = 't:' + limpio(b.codigo);
+    const ok1 = env.CODIGO_TIENDA && await iguales(dado, 't:' + limpio(env.CODIGO_TIENDA));
+    const ok2 = env.CODIGO_QR && await iguales(dado, 't:' + limpio(env.CODIGO_QR));
+    if (!ok1 && !ok2) return json({ error: 'El código de la tienda no es correcto.' }, 403);
   }
   const pedido = nuevoCodigo(), exp = Date.now() + 30 * 60 * 1000;
   return json({ pedido, ticket: pedido + '.' + exp + '.' + await firma(pedido + '.' + exp, env.TICKET_SECRET) });
