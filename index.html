@@ -1,8 +1,32 @@
 <!doctype html>
 <html lang="es"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow"><meta name="color-scheme" content="light dark">
-<title>En pausa</title>
-<link rel="stylesheet" href="pausa.css">
-</head>
-<body><main><img class="e" src="logo.png" alt="" width="96" height="96"><h1>Estamos en pausa</h1><p>Volvemos pronto. Gracias por tu paciencia.</p></main></body></html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#d6283d">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/iconos/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/iconos/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/iconos/icon-192x192.png">
+<link rel="apple-touch-icon" href="/assets/img/iconos/apple-icon-180x180.png">
+<link rel="stylesheet" href="/assets/css/estilos.css">
+<meta name="robots" content="noindex">
+<title>Enviar archivos para imprimir</title>
+</head><body data-pag="enviar"><main>
+<div id="gate" class="gate" role="dialog" aria-modal="true" aria-labelledby="gt"><div class="card"><img class="logo" src="/assets/img/iconos/icon-192x192.png" alt="" width="64" height="64"><h2 id="gt">Código de la tienda</h2><p class="sub">Pídeselo a quien te atiende en el local.</p><input id="tienda" maxlength="30" autocomplete="off" placeholder="Escríbelo aquí"><p id="gmsg" role="alert"></p><button class="btn" id="gok" type="button">Continuar</button></div></div>
+<div class="top rv"><img src="/assets/img/iconos/icon-192x192.png" alt="" width="42" height="42"><span class="neg" id="neg"></span></div>
+<h1 class="rv">Envía tus archivos para imprimir</h1>
+<p class="sub rv">Solo los ve quien atiende el negocio.</p>
+<ol class="pasos rv"><li><b>1</b> Elige tus archivos</li><li><b>2</b> Cuéntanos qué necesitas</li><li><b>3</b> Recibe tu código</li></ol>
+<form id="f" class="card rv" novalidate>
+<label id="drop" for="file"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7 9m5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></span><b>Toca para elegir archivos</b>o arrástralos aquí<small>Fotos, PDF, Word o Excel · hasta 50 MB y 10 archivos</small></label>
+<input id="file" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,image/*">
+<ul id="ls"></ul>
+<label class="l" for="n">Tu nombre</label><input id="n" maxlength="60" autocomplete="name" placeholder="¿Cómo te llamas?">
+<label class="l" for="o">¿Qué necesitas? <small>(copias, tamaño, color o blanco y negro)</small></label><textarea id="o" rows="3" maxlength="300" placeholder="Ej: 2 copias a color, tamaño carta"></textarea>
+<div id="ts"></div><p id="msg" role="alert"></p>
+<button class="btn" id="go">Enviar</button>
+</form>
+<div class="card exito" id="exito" hidden><div class="ok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></div><h2>¡Recibimos tus archivos!</h2><p>Tu código es</p><p class="cod" id="cod"></p><p>Si vas a preguntar por tu pedido, di este código.</p><button class="mini" id="copiar" type="button">Copiar código</button></div>
+<div class="enlace rv"><a href="recoger.html">¿Ya te avisaron? Descargar mis archivos →</a></div>
+</main><script src="/assets/js/comun.js"></script><script src="/assets/js/enviar.js"></script> <script src="/assets/js/gate.js"></script> <script src="/assets/js/ui.js"></script></body></html>

@@ -75,3 +75,12 @@ ul{list-style:none;margin:10px 0 0;padding:0}
 .ped .etq+.tiles{margin-top:6px}
 .ped header{flex-wrap:wrap;row-gap:4px}
 .chip,.ped time{white-space:nowrap}
+main.legal{max-width:720px}
+.legal h2{font-size:1.1rem;margin:24px 0 6px}.legal p{margin:6px 0}.legal ul{list-style:disc;padding-left:1.3em;margin:6px 0}.legal li{margin:3px 0}.legal .fecha{color:var(--mut);font-size:.9rem}
+.acepto{display:flex;gap:10px;align-items:flex-start;margin-top:16px;font-size:.92rem;color:var(--mut)}.acepto input{width:auto;margin-top:4px;padding:0;accent-color:var(--brand)}.acepto a{color:var(--ink)}
+.gate{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;background:rgb(var(--bgrgb)/.55);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);transition:opacity .35s}
+.gate.fuera{opacity:0;pointer-events:none}
+.gate .card{width:100%;max-width:380px;text-align:center;margin:0}
+.gate .logo{width:64px;height:64px;margin:0 auto 4px;display:block}
+#tienda{text-align:center;font-size:1.3rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+#gmsg{color:var(--bad);font-weight:600;margin:10px 0 0}#gmsg:empty{margin:0}

@@ -56,6 +56,7 @@ $('#f').onsubmit = async e => {
   e.preventDefault(); if (enviando) return; msg('');
   if (!val('#n')) return msg('Escribe tu nombre.');
   if (!files.length) return msg('Elige al menos un archivo.');
+  if (!$('#acepto').checked) return msg('Debes aceptar las políticas y condiciones para enviar.');
   if (CFG.turnstile && !token && !sesion) return msg('Confirma que no eres un robot.');
   enviando = true; $('#go').disabled = true; $('#go').textContent = 'Enviando…';
   try {

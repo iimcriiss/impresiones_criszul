@@ -3,13 +3,18 @@ import { json, firma, iguales, nuevoCodigo, CODIGO, EXT, MAX, MAX_ARCH, corto, d
 
 export async function onRequestPost({ request, env }) {
   if (!env.TICKET_SECRET) return json({ error: 'El servicio no está configurado' }, 500);
+  let b = {}; try { b = await request.json(); } catch {}
   if (env.TURNSTILE_SECRET) {
-    let b = {}; try { b = await request.json(); } catch {}
     try {
       const f = new FormData(); f.append('secret', env.TURNSTILE_SECRET); f.append('response', b.token || ''); f.append('remoteip', request.headers.get('CF-Connecting-IP') || '');
       const v = await (await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body: f })).json();
       if (!v.success) return json({ error: 'No pudimos verificar que eres una persona. Inténtalo de nuevo.' }, 403);
     } catch { return json({ error: 'No pudimos verificar. Inténtalo de nuevo.' }, 502); }
+  }
+  // Código de la tienda (opcional): si existe el secreto CODIGO_TIENDA, hay que escribirlo para poder enviar
+  if (env.CODIGO_TIENDA) {
+    const limpio = x => String(x || '').trim().toUpperCase().replace(/\s+/g, '');
+    if (!(await iguales('t:' + limpio(b.codigo), 't:' + limpio(env.CODIGO_TIENDA)))) return json({ error: 'El código de la tienda no es correcto.' }, 403);
   }
   const pedido = nuevoCodigo(), exp = Date.now() + 30 * 60 * 1000;
   return json({ pedido, ticket: pedido + '.' + exp + '.' + await firma(pedido + '.' + exp, env.TICKET_SECRET) });
