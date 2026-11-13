@@ -131,3 +131,13 @@ body[data-pag=admin] .ped .tile .ext{background:var(--card)}
 body[data-pag=admin] .ped .acc{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
 body[data-pag=admin] .mini.del{background:rgb(193 18 31/.1);border-color:transparent}
 body[data-pag=admin] .mini.del:hover{background:rgb(193 18 31/.2)}
+
+/* ===== Enviar y Recoger: mismo fondo y contraste que el panel ===== */
+body[data-pag=enviar],body[data-pag=recoger]{--velo:.9;--difuminado:14px;--line:#e4c3c8;--campo:#fff;--sombra:0 1px 2px rgb(60 10 20/.08),0 12px 32px rgb(90 20 35/.18)}
+@media (prefers-color-scheme:dark){body[data-pag=enviar],body[data-pag=recoger]{--velo:.88;--card:#331e24;--soft:#43242c;--line:#5e3d46;--campo:#24131a;--sombra:0 14px 36px rgb(0 0 0/.55)}}
+body[data-pag=enviar] .card,body[data-pag=recoger] .card{background:var(--card);border-color:var(--line);box-shadow:inset 0 4px 0 var(--brand),var(--sombra);padding-top:26px}
+body[data-pag=enviar] .gate .card{box-shadow:var(--sombra)}
+body[data-pag=enviar] input,body[data-pag=enviar] textarea,body[data-pag=recoger] input,body[data-pag=recoger] textarea{background:var(--campo);border-color:var(--line)}
+body[data-pag=enviar] #file{background:none}
+body[data-pag=enviar] .enlace a.descargar{background:var(--card);box-shadow:var(--sombra)}
+body[data-pag=enviar] .top .neg,body[data-pag=enviar] h1{text-shadow:none}
