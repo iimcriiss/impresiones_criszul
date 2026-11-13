@@ -1,6 +1,23 @@
 // Subida pública: POST = pide un permiso (ticket) · PUT = sube un archivo a R2 (binding FILES)
 import { json, firma, iguales, nuevoCodigo, CODIGO, EXT, MAX, MAX_ARCH, corto, dec, limpiarNombre, formatoValido } from '../_lib/util.js';
 
+// Acceso recordado: al poner bien el código de la tienda se guarda una cookie firmada (6 horas).
+// Si cambias CODIGO_TIENDA, todas las cookies anteriores dejan de servir.
+const HORAS_ACCESO = 6;
+const limpio = x => String(x || '').trim().toUpperCase().replace(/\s+/g, '');
+const firmaAcceso = (exp, env) => firma('acceso.' + exp + '.' + limpio(env.CODIGO_TIENDA), env.TICKET_SECRET);
+async function conAcceso(request, env) {
+  if (!env.CODIGO_TIENDA || !env.TICKET_SECRET) return false;
+  const c = (request.headers.get('Cookie') || '').split(/;\s*/).find(x => x.startsWith('acc='));
+  const [exp, sig] = c ? c.slice(4).split('.') : [];
+  return !!c && Date.now() < +exp && await iguales(sig || '', await firmaAcceso(exp, env));
+}
+
+// GET = ¿este navegador ya tiene acceso? (así no se vuelve a pedir el código)
+export async function onRequestGet({ request, env }) {
+  return (await conAcceso(request, env)) ? json({ ok: true }) : json({ error: 'Falta el código de la tienda' }, 401);
+}
+
 export async function onRequestPost({ request, env }) {
   if (!env.TICKET_SECRET) return json({ error: 'El servicio no está configurado' }, 500);
   let b = {}; try { b = await request.json(); } catch {}
@@ -11,13 +28,17 @@ export async function onRequestPost({ request, env }) {
       if (!v.success) return json({ error: 'No pudimos verificar que eres una persona. Inténtalo de nuevo.' }, 403);
     } catch { return json({ error: 'No pudimos verificar. Inténtalo de nuevo.' }, 502); }
   }
-  // Código de la tienda (opcional): si existe el secreto CODIGO_TIENDA, hay que escribirlo para poder enviar
+  // Código de la tienda (opcional): si existe el secreto CODIGO_TIENDA, hay que escribirlo (o tener la cookie de acceso)
+  let galleta = {};
   if (env.CODIGO_TIENDA) {
-    const limpio = x => String(x || '').trim().toUpperCase().replace(/\s+/g, '');
-    if (!(await iguales('t:' + limpio(b.codigo), 't:' + limpio(env.CODIGO_TIENDA)))) return json({ error: 'El código de la tienda no es correcto.' }, 403);
+    if (b.codigo) {
+      if (!(await iguales('t:' + limpio(b.codigo), 't:' + limpio(env.CODIGO_TIENDA)))) return json({ error: 'El código de la tienda no es correcto.' }, 403);
+      const vence = Date.now() + HORAS_ACCESO * 3600 * 1000;
+      galleta = { 'set-cookie': 'acc=' + vence + '.' + await firmaAcceso(vence, env) + '; HttpOnly; Secure; SameSite=Strict; Path=/api/subir; Max-Age=' + HORAS_ACCESO * 3600 };
+    } else if (!(await conAcceso(request, env))) return json({ error: 'Escribe el código de la tienda.' }, 403);
   }
   const pedido = nuevoCodigo(), exp = Date.now() + 30 * 60 * 1000;
-  return json({ pedido, ticket: pedido + '.' + exp + '.' + await firma(pedido + '.' + exp, env.TICKET_SECRET) });
+  return json({ pedido, ticket: pedido + '.' + exp + '.' + await firma(pedido + '.' + exp, env.TICKET_SECRET) }, 200, galleta);
 }
 
 export async function onRequestPut({ request, env }) {

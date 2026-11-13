@@ -30,7 +30,7 @@ ul{list-style:none;margin:10px 0 0;padding:0}
 .nom{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}em{font-style:normal;color:var(--mut);font-size:.82rem}
 .arch.err em{color:var(--bad)}.arch.done em{color:var(--ok)}.arch.done .ext{background:rgb(31 143 95/.15);color:var(--ok)}
 .arch button{grid-row:span 2;border:0;background:none;color:var(--bad);font-size:1.4rem;cursor:pointer;padding:4px 8px;border-radius:8px}
-.barra{grid-column:2/4;height:5px;background:var(--line);border-radius:5px;overflow:hidden}.barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--b1),var(--b2));transition:width .15s}
+.barra{grid-column:2/4;height:6px;background:var(--line);border-radius:6px;overflow:hidden}.barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,#1f8f5f,#4cc38a);border-radius:6px;transition:width .25s linear}
 #msg,#err{color:var(--bad);margin:12px 0 0;font-weight:600}#msg:empty,#err:empty{margin:0}
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:16px;padding:15px;border:0;border-radius:14px;background:linear-gradient(135deg,var(--b1),var(--b2));color:#fff;font:inherit;font-weight:700;font-size:1.05rem;cursor:pointer;text-decoration:none;box-shadow:0 8px 20px rgb(214 40 61/.3);transition:transform .12s,box-shadow .2s,filter .2s}
 .btn:hover{filter:brightness(1.06);box-shadow:0 10px 26px rgb(214 40 61/.38)}.btn:active{transform:scale(.985)}.btn:disabled{opacity:.65;cursor:wait}
@@ -67,8 +67,6 @@ ul{list-style:none;margin:10px 0 0;padding:0}
 .ped .etq+.tiles{margin-top:6px}
 .ped header{flex-wrap:wrap;row-gap:4px}
 .chip,.ped time{white-space:nowrap}
-main.legal{max-width:720px}
-.legal h2{font-size:1.1rem;margin:24px 0 6px}.legal p{margin:6px 0}.legal ul{list-style:disc;padding-left:1.3em;margin:6px 0}.legal li{margin:3px 0}.legal .fecha{color:var(--mut);font-size:.9rem}
 .gate{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;background:rgb(var(--bgrgb)/.55);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);transition:opacity .35s}
 .gate.fuera{opacity:0;pointer-events:none}
 .gate .card{width:100%;max-width:380px;text-align:center;margin:0}
@@ -95,3 +93,21 @@ main.legal{max-width:720px}
 .descargar .ic{flex:none;width:44px;height:44px;border-radius:50%;background:var(--soft);display:grid;place-items:center}.descargar svg{width:22px;height:22px;stroke:var(--brand);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .descargar .tx{flex:1;display:flex;flex-direction:column;line-height:1.25}.descargar .tx b{font-family:Bricolage,Inter,sans-serif;font-size:1.05rem}.descargar .tx small{color:var(--mut);font-size:.88rem}
 .descargar .fl{font-size:1.3rem;font-weight:700;color:var(--brand)}
+
+/* Descargar archivos */
+.pista{margin:8px 2px 0;color:var(--mut);font-size:.88rem}
+#msg.info{color:var(--mut);font-weight:500}
+.mini.pri{background:linear-gradient(135deg,var(--b1),var(--b2));color:#fff;border-color:transparent;box-shadow:0 4px 12px rgb(214 40 61/.3)}
+.mini.pri:hover{filter:brightness(1.06)}
+.tile .nom{display:block}
+
+/* Lista sin parpadeo: la animación de entrada solo corre una vez; durante el envío se oculta la × */
+.arch.ya{animation:none}.arch.bloq button{display:none}
+.exito .btn{margin-top:14px}
+/* Aviso flotante de archivos rechazados */
+.aviso{position:fixed;top:16px;left:0;right:0;margin:0 auto;width:calc(100% - 32px);max-width:440px;z-index:70;padding:14px 44px 14px 16px;border-radius:16px;background:var(--card);border:2px solid var(--bad);box-shadow:0 16px 44px rgb(0 0 0/.35);animation:baja .3s both}
+.aviso.out{opacity:0;transform:translateY(-10px);transition:opacity .3s,transform .3s}
+.aviso .rt{margin:0 0 6px;font-weight:800;color:var(--bad);font-size:1.02rem}.aviso ul{margin:0}.aviso li{margin:4px 0;font-size:.92rem}.aviso li b{word-break:break-all}
+.aviso .ayu{margin:8px 0 0;font-size:.85rem;color:var(--mut)}
+.aviso .x{position:absolute;top:8px;right:8px;border:0;background:none;color:var(--bad);font-size:1.5rem;line-height:1;cursor:pointer;padding:4px 10px;border-radius:8px}
+@keyframes baja{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}

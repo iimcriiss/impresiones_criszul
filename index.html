@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/iconos/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/assets/img/iconos/icon-192x192.png">
     <link rel="apple-touch-icon" href="/assets/img/iconos/apple-icon-180x180.png">
-    <link rel="stylesheet" href="/assets/css/estilos.css?v=5">
+    <link rel="stylesheet" href="/assets/css/estilos.css?v=7">
     <meta name="robots" content="noindex">
     <title>Enviar archivos para imprimir</title>
 </head>
@@ -39,7 +39,6 @@
                     hasta 50 MB y 10 archivos</small></label>
             <input id="file" type="file" multiple
                 accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,image/*">
-            <div id="rech" class="rech" role="alert" hidden></div>
             <ul id="ls"></ul>
             <label class="l" for="n"><b class="num">2</b> Tu nombre</label><input id="n" maxlength="60" autocomplete="name"
                 placeholder="¿Cómo te llamas?">
@@ -58,13 +57,14 @@
             <p class="cod" id="cod"></p>
             <p>Si vas a preguntar por tu pedido, di este código.</p><button class="mini" id="copiar"
                 type="button">Copiar código</button>
+            <button class="btn" id="mas" type="button">Subir más archivos</button>
         </div>
         <div class="enlace rv"><a class="descargar" href="recoger.html"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12m0 0-5-5m5 5 5-5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" /></svg></span><span class="tx"><b>¿Ya te avisaron?</b><small>Descargar mis archivos</small></span><span class="fl" aria-hidden="true">→</span></a></div>
     </main>
-    <script src="/assets/js/comun.js"></script>
-    <script src="/assets/js/enviar.js"></script>
-    <script src="/assets/js/gate.js"></script>
-    <script src="/assets/js/ui.js"></script>
+    <script src="/assets/js/comun.js?v=7"></script>
+    <script src="/assets/js/enviar.js?v=7"></script>
+    <script src="/assets/js/gate.js?v=7"></script>
+    <script src="/assets/js/ui.js?v=7"></script>
 </body>
 
 </html>
