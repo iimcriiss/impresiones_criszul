@@ -26,16 +26,29 @@ function render() {
     ul.append(li);
   });
 }
+const TIPOS = 'PDF, fotos (JPG, PNG, WEBP, HEIC), Word, Excel, PowerPoint o TXT';
+// Aviso visible junto a la zona de carga con los archivos que no se pudieron agregar y por qué
+function rechazos(lista, tipo) {
+  const r = $('#rech'); r.innerHTML = '';
+  if (!lista.length) { r.hidden = true; return; }
+  const t = document.createElement('p'); t.className = 'rt'; t.textContent = lista.length > 1 ? 'No se pudieron agregar ' + lista.length + ' archivos' : 'No se pudo agregar este archivo';
+  const ul = document.createElement('ul');
+  lista.forEach(([n, m]) => { const li = document.createElement('li'), b = document.createElement('b'); b.textContent = n; li.append(b, ' · ' + m); ul.append(li); });
+  const x = document.createElement('button'); x.type = 'button'; x.className = 'x'; x.textContent = '×'; x.setAttribute('aria-label', 'Cerrar aviso'); x.onclick = () => { r.hidden = true; };
+  r.append(t, ul, x);
+  if (tipo) { const a = document.createElement('p'); a.className = 'ayu'; a.textContent = 'Sí puedes enviar: ' + TIPOS + '.'; r.append(a); }
+  r.hidden = false; dz.classList.remove('mal'); void dz.offsetWidth; dz.classList.add('mal');
+}
 function add(arr) {
-  msg('');
+  msg(''); const no = []; let tipo = false;
   for (const f of arr) {
-    if (!OK.test(f.name)) { msg('«' + f.name + '»: ese tipo de archivo no se acepta.'); continue; }
-    if (!f.size) continue;
-    if (f.size > MAX) { msg('«' + f.name + '» pesa más de 50 MB.'); continue; }
-    if (files.length >= MAX_ARCH) { msg('Máximo 10 archivos por envío.'); break; }
+    if (!OK.test(f.name)) { no.push([f.name, 'ese tipo de archivo no se acepta']); tipo = true; continue; }
+    if (!f.size) { no.push([f.name, 'el archivo está vacío']); continue; }
+    if (f.size > MAX) { no.push([f.name, 'pesa más de 50 MB (' + fmt(f.size) + ')']); continue; }
+    if (files.length >= MAX_ARCH) { no.push([f.name, 'ya llegaste al máximo de 10 archivos']); continue; }
     files.push({ file: f, st: fmt(f.size), i: libre() });
   }
-  render();
+  rechazos(no, tipo); render();
 }
 $('#file').onchange = e => { add([...e.target.files]); e.target.value = ''; };
 const dz = $('#drop');

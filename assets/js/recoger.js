@@ -9,7 +9,7 @@ $('#f').onsubmit = async e => {
     const r = await fetch('/api/recoger?c=' + encodeURIComponent(c));
     if (!r.ok) throw new Error(await err(r, 'No se pudo consultar. Inténtalo de nuevo.'));
     const lista = await r.json();
-    if (!lista.length) { msg('Todavía no hay nada para este código. Si ya te avisaron, revisa que esté bien escrito.'); if (window.ayudaPulso) ayudaPulso(); return; }
+    if (!lista.length) { msg('Todavía no hay nada para este código. Si ya te avisaron, revisa que esté bien escrito.'); return; }
     const ul = $('#ls'); ul.innerHTML = '';
     lista.forEach((x, i) => {
       const li = document.createElement('li'), t = document.createElement('div'), n = document.createElement('span'), em = document.createElement('em'), a = document.createElement('a'), e2 = document.createElement('div');
