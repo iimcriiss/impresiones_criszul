@@ -19,6 +19,7 @@ Los clientes suben archivos en `/` y reciben un código (ej. `K7M2-9QXA`). Tú l
    - `ADMIN_KEY`: la clave de `/admin.html` (mínimo 16 caracteres).
    - `TICKET_SECRET`: firma los permisos de subida (30+ caracteres aleatorios). **Nueva: es obligatoria.**
    Para generarlas: `openssl rand -base64 32`
+   - `CODIGO_TIENDA`: código numérico de 6 dígitos que se pide en la pantalla de entrada (solo quien esté en el local lo sabe). Para cambiarlo: edita el secreto y vuelve a desplegar. QR del mostrador: `https://TU-PAGINA.pages.dev/?c=123456`.
 5. Vuelve a desplegar.
 6. En `assets/js/enviar.js` pon el nombre del negocio en `CFG`.
 

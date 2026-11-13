@@ -12,7 +12,9 @@ if (CFG.turnstile) {
 }
 const libre = () => [...Array(MAX_ARCH).keys()].find(i => !files.some(f => f.i === i));
 
+const rotulo = () => files.length ? 'Enviar ' + files.length + (files.length > 1 ? ' archivos' : ' archivo') : 'Enviar';
 function render() {
+  if (!enviando) $('#go').textContent = rotulo();
   const ul = $('#ls'); ul.innerHTML = '';
   files.forEach((f, k) => {
     const li = document.createElement('li'); li.className = 'arch' + (f.err ? ' err' : f.ok ? ' done' : '');
@@ -56,7 +58,6 @@ $('#f').onsubmit = async e => {
   e.preventDefault(); if (enviando) return; msg('');
   if (!val('#n')) return msg('Escribe tu nombre.');
   if (!files.length) return msg('Elige al menos un archivo.');
-  if (!$('#acepto').checked) return msg('Debes aceptar las políticas y condiciones para enviar.');
   if (CFG.turnstile && !token && !sesion) return msg('Confirma que no eres un robot.');
   enviando = true; $('#go').disabled = true; $('#go').textContent = 'Enviando…';
   try {
@@ -74,6 +75,6 @@ $('#f').onsubmit = async e => {
     if (fallos) throw new Error('No se enviaron ' + fallos + ' archivo(s). Toca Enviar para reintentar.');
     $('#cod').textContent = cod(sesion.pedido); $('#f').hidden = true; $('#exito').hidden = false; sesion = null;
   } catch (er) { msg(er.message); }
-  finally { enviando = false; $('#go').disabled = false; $('#go').textContent = 'Enviar'; render(); }
+  finally { enviando = false; $('#go').disabled = false; render(); }
 };
 $('#copiar').onclick = async () => { try { await navigator.clipboard.writeText($('#cod').textContent); $('#copiar').textContent = '¡Copiado!'; } catch {} };

@@ -11,3 +11,4 @@ export async function onRequest({ request, next }) {
     return new Response(r.body, { status: r.status, headers: h });
   } catch { return json({ error: 'Error del servidor' }, 500); }
 }
+

@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/iconos/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/assets/img/iconos/icon-192x192.png">
     <link rel="apple-touch-icon" href="/assets/img/iconos/apple-icon-180x180.png">
-    <link rel="stylesheet" href="/assets/css/estilos.css?v=3">
+    <link rel="stylesheet" href="/assets/css/estilos.css?v=4">
     <meta name="robots" content="noindex">
     <title>Enviar archivos para imprimir</title>
 </head>
@@ -20,8 +20,8 @@
     <div id="gate" class="gate" role="dialog" aria-modal="true" aria-labelledby="gt">
         <div class="card"><img class="logo" src="/assets/img/iconos/icon-192x192.png" alt="" width="64" height="64">
             <h2 id="gt">Código de la tienda</h2>
-            <p class="sub">Pídeselo a quien te atiende en el local.</p><input id="tienda" maxlength="30"
-                autocomplete="off" placeholder="Escríbelo aquí">
+            <p class="sub">Pídeselo a quien te atiende en el local.</p><input id="tienda" maxlength="6" inputmode="numeric" pattern="[0-9]*"
+                autocomplete="off" placeholder="······" aria-label="Código de la tienda">
             <p id="gmsg" role="alert"></p><button class="btn" id="gok" type="button">Continuar</button>
         </div>
     </div>
@@ -31,12 +31,8 @@
                 class="neg" id="neg"></span></div>
         <h1 class="rv">Envía tus archivos para imprimir</h1>
         <p class="sub rv">Solo los ve quien atiende el negocio.</p>
-        <ol class="pasos rv">
-            <li><b>1</b> Elige tus archivos</li>
-            <li><b>2</b> Cuéntanos qué necesitas</li>
-            <li><b>3</b> Recibe tu código</li>
-        </ol>
         <form id="f" class="card rv" novalidate>
+            <p class="paso"><b>1</b> Elige tus archivos</p>
             <label id="drop" for="file"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M12 16V4m0 0L7 9m5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" />
                     </svg></span><b>Toca para elegir archivos</b>o arrástralos aquí<small>Fotos, PDF, Word o Excel ·
@@ -44,12 +40,10 @@
             <input id="file" type="file" multiple
                 accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,image/*">
             <ul id="ls"></ul>
-            <label class="l" for="n">Tu nombre</label><input id="n" maxlength="60" autocomplete="name"
+            <label class="l" for="n"><b class="num">2</b> Tu nombre</label><input id="n" maxlength="60" autocomplete="name"
                 placeholder="¿Cómo te llamas?">
-            <label class="l" for="o">¿Qué necesitas? <small>(copias, tamaño, color o blanco y
-                    negro)</small></label><textarea id="o" rows="3" maxlength="300"
+            <label class="l" for="o"><b class="num">3</b> ¿Qué necesitas? <small>(opcional)</small></label><textarea id="o" rows="3" maxlength="300"
                 placeholder="Ej: 2 copias a color, tamaño carta"></textarea>
-            <label class="acepto"><input type="checkbox" id="acepto"><span>Acepto las <a href="politicas.html" target="_blank" rel="noopener">políticas y condiciones</a> y autorizo el uso de mi nombre y archivos solo para atender mi pedido.</span></label>
             <div id="ts"></div>
             <p id="msg" role="alert"></p>
             <button class="btn" id="go">Enviar</button>
