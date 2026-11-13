@@ -5,8 +5,10 @@
   const LARGO = 6;   // cuántos números tiene el código de la tienda (4 o 6); al completarlos entra solo
   const inp = $('#tienda'), btn = $('#gok'), main = document.querySelector('main');
   const aviso = t => { $('#gmsg').textContent = t; };
-  const abrir = () => { g.classList.add('fuera'); main.inert = false; setTimeout(() => g.remove(), 400); };
-  main.inert = true; inp.maxLength = LARGO; inp.focus();
+  const rec = document.documentElement.classList.contains('acceso');   // acceso recordado: la pantalla ya está oculta desde el inicio
+  const abrir = () => { try { localStorage.setItem('acc', Date.now() + 5.5 * 3600 * 1000); } catch (e) {} g.classList.add('fuera'); main.inert = false; setTimeout(() => g.remove(), 400); };
+  const volver = () => { try { localStorage.removeItem('acc'); } catch (e) {} document.documentElement.classList.remove('acceso'); main.inert = true; inp.focus(); };
+  main.inert = !rec; inp.maxLength = LARGO; if (!rec) inp.focus();
   const esperar = async () => { for (let i = 0; i < 24 && CFG.turnstile && !token; i++) await new Promise(r => setTimeout(r, 250)); };
   async function entrar() {
     aviso(''); if (!inp.value.trim()) return aviso('Escribe el código de la tienda.');
@@ -25,5 +27,5 @@
   inp.oninput = () => { inp.value = inp.value.replace(/\D/g, '').slice(0, LARGO); aviso(''); if (inp.value.length === LARGO) entrar(); };
   const c = new URLSearchParams(location.search).get('c');   // enlace/QR del local: /?c=CODIGO
   if (c) { inp.value = c.replace(/\D/g, '').slice(0, LARGO); entrar(); }
-  else fetch('/api/subir').then(r => { if (r.ok) abrir(); }).catch(() => {});   // si ya entró hace poco, no se pide otra vez
+  else fetch('/api/subir').then(r => { if (r.ok) abrir(); else if (rec) volver(); }).catch(() => {});   // si ya entró hace poco, no se pide otra vez
 })();

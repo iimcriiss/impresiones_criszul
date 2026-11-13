@@ -11,7 +11,7 @@ function tarjeta(p) {
   return '<article class="card ped rv"><header><span class="chip">' + esc(cod(p.id)) + '</span><time>' + new Date(p.f).toLocaleString('es-CO', { dateStyle: 'medium', timeStyle: 'short' }) + '</time></header>'
     + '<p><strong>' + (esc(p.m.c) || 'Sin nombre') + '</strong></p>' + (p.m.o ? '<p class="etq">Lo que pide el cliente</p><p class="nota">' + esc(p.m.o) + '</p>' : '')
     + '<p class="etq">Archivos que envió (' + p.a.length + ')</p><ul class="tiles">' + p.a.map(x => '<li class="tile"><div class="ext">' + esc(ext(x.m.n || '')) + '</div><div class="tx"><span class="nom">' + esc(x.m.n || x.k) + '</span><em>' + fmt(x.s) + '</em></div><button class="mini" data-d="' + esc(x.k) + '" aria-label="Descargar ' + esc(x.m.n || '') + '">' + IC + '</button></li>').join('') + '</ul>'
-    + '<div class="acc"><button class="mini" data-r="' + esc(p.id) + '">Subir respuesta</button><button class="mini" data-t="' + esc(p.id) + '">Descargar todo</button><button class="mini del" data-b="' + esc(p.id) + '">Borrar</button></div></article>';
+    + '<div class="acc"><button class="mini" data-r="' + esc(p.id) + '">Subir respuesta</button><button class="mini pri" data-t="' + esc(p.id) + '">Descargar todo</button><button class="mini del" data-b="' + esc(p.id) + '">Borrar</button></div></article>';
 }
 function pintar() {
   g = {}; for (const x of datos) (g[x.k.split('/')[1]] = g[x.k.split('/')[1]] || []).push(x);

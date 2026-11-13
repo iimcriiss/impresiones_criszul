@@ -111,3 +111,23 @@ ul{list-style:none;margin:10px 0 0;padding:0}
 .aviso .ayu{margin:8px 0 0;font-size:.85rem;color:var(--mut)}
 .aviso .x{position:absolute;top:8px;right:8px;border:0;background:none;color:var(--bad);font-size:1.5rem;line-height:1;cursor:pointer;padding:4px 10px;border-radius:8px}
 @keyframes baja{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
+.acceso .gate{display:none}
+
+/* ===== Panel del negocio: más contraste y aspecto más moderno (solo afecta a admin.html) ===== */
+body[data-pag=admin]{--velo:.9;--difuminado:14px;--line:#e4c3c8;--sombra:0 1px 2px rgb(60 10 20/.08),0 12px 32px rgb(90 20 35/.18)}
+@media (prefers-color-scheme:dark){body[data-pag=admin]{--velo:.88;--card:#331e24;--soft:#43242c;--line:#5e3d46;--sombra:0 14px 36px rgb(0 0 0/.55)}}
+body[data-pag=admin] .cab h1{font-size:clamp(1.7rem,5vw,2.3rem)}
+body[data-pag=admin] .cab .mini{box-shadow:var(--sombra);border-color:var(--line)}
+body[data-pag=admin] .stats span{background:var(--card);border-color:var(--line);box-shadow:var(--sombra);border-radius:16px}
+body[data-pag=admin] .stats b{color:var(--brand);font-size:1.3rem}
+body[data-pag=admin] #buscar{max-width:440px;background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a88a90' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") no-repeat 14px center/20px;padding-left:44px;border-color:var(--line);box-shadow:var(--sombra)}
+body[data-pag=admin] .ped{background:var(--card);border:1px solid var(--line);padding:20px 20px 18px;box-shadow:inset 5px 0 0 var(--brand),var(--sombra)}
+body[data-pag=admin] .ped header{margin-bottom:10px}
+body[data-pag=admin] .ped .chip{font-size:1.2rem;padding:4px 14px;background:var(--brand);color:#fff}
+body[data-pag=admin] .ped time{color:var(--mut)}
+body[data-pag=admin] .ped p strong{font-family:Bricolage,Inter,sans-serif;font-size:1.25rem;letter-spacing:-.01em}
+body[data-pag=admin] .ped .tile{background:var(--soft);border-color:transparent}
+body[data-pag=admin] .ped .tile .ext{background:var(--card)}
+body[data-pag=admin] .ped .acc{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+body[data-pag=admin] .mini.del{background:rgb(193 18 31/.1);border-color:transparent}
+body[data-pag=admin] .mini.del:hover{background:rgb(193 18 31/.2)}
